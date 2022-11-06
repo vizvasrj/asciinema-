@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/asciinema-player.css' %}">
+    <!-- https://github.com/asciinema/asciinema-player/releases/download/v3.0.1/asciinema-player.css -->
+    <script src="{% static 'css/asciinema-player.min.js' %}"></script>
+    <!-- https://github.com/asciinema/asciinema-player/releases/download/v3.0.1/asciinema-player.min.js -->
+
+    <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+
+    <style>
+        .width400 {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    /tmp/tmpmqxpet32-ascii.cast
+    <audio src="/media/stackoverflow.wav"></audio>
+
+    <audio id="audio" controls>
+        <source src="/media/stackoverflow.wav" type="audio/ogg">
+        <source src="horse.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio> 
+
+    <div class="width400">
+
+        <div id="demo"></div>
+    </div>
+    <script>
+        const player = AsciinemaPlayer.create('/media/535369.cast', document.getElementById('demo'));
+        var audio = document.getElementById('audio');
+        $(document).ready(function () {
+
+            player.play().then(() => {
+                console.log("Starrted duration "+player.getDuration());
+                audio.play()
+            })
+
+            // player.pause().then(() => {
+            //     console.log("Paused duration "+player.getDuration());
+            //     audio.pause()
+            // })
+
+
+        })
+        
+        $(player.el).on('keyup', function() {
+          console.log(player.getCurrentTime())
+          var ctime = player.getCurrentTime()
+          audio.currentTime = ctime
+
+
+        })
+
+        player.addEventListener('play', () => {
+            console.log(`playing! we're at: ${player.getCurrentTime()}`);
+            audio.play()
+        })
+
+        player.addEventListener('pause', () => {
+            console.log(`pause! we're at: ${player.getCurrentTime()}`);
+            audio.pause()
+        })
+
+        $(player.el).on('click', '.progressbar', function() {
+            console.log(player.getCurrentTime())
+            var ctime = player.getCurrentTime()
+            audio.currentTime = ctime
+
+        })        
+    </script>
+
+    <script>
+
+
+
+    </script>
+
+</body>
+
+</html>
